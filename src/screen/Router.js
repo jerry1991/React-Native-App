@@ -116,13 +116,13 @@ const TabNavigator = createBottomTabNavigator(
 const AppContainer = createAppContainer(
   createStackNavigator(
     {
-      HomeTab: {
+      Home: {
         screen: TabNavigator
       },
       Login: Login
     },
     {
-      initialRouteName: "HomeTab",
+      initialRouteName: "Home",
       headerMode: "none"
     }
   )

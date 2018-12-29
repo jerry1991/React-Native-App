@@ -3,8 +3,17 @@ import { Header } from "react-native-elements";
 import { StyleSheet } from "react-native";
 import PropTypes from "prop-types";
 import { ui } from "../style/layout";
+import { TouchableOpacity } from "react-native";
+import Icon from "react-native-vector-icons/dist/FontAwesome";
 
 class NavBar extends React.Component {
+  backBtn = () => {
+    return (
+      <TouchableOpacity style={styles.BackBtn}>
+        <Icon size={30} name="angle-left" />
+      </TouchableOpacity>
+    );
+  };
   render() {
     const outerStyle = Object.assign(
       styles.outerContainer,
@@ -16,7 +25,9 @@ class NavBar extends React.Component {
     );
     return (
       <Header
-        leftComponent={this.props.leftComponent}
+        leftComponent={
+          this.props.showBackBtn ? this.backBtn() : this.props.leftComponent
+        }
         centerComponent={this.props.centerComponent}
         rightComponent={this.props.rightComponent}
         outerContainerStyles={outerStyle}
@@ -31,16 +42,21 @@ NavBar.propTypes = {
   centerComponent: PropTypes.element,
   rightComponent: PropTypes.element,
   outerStyle: PropTypes.object,
-  innerStyle: PropTypes.object
+  innerStyle: PropTypes.object,
+  showBackBtn: PropTypes.bool
 };
 
 const styles = StyleSheet.create({
+  BackBtn: {
+    marginLeft: 15
+  },
   outerContainer: {
     padding: 0,
     height: ui(88),
     backgroundColor: "transparent",
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
+    flexDirection: "row"
   },
   innerContainer: {
     alignItems: "center"

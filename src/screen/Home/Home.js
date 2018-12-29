@@ -5,13 +5,16 @@ import {
   StyleSheet,
   TouchableOpacity,
   ScrollView,
-  FlatList
+  FlatList,
+  Image
 } from "react-native";
 import { observer, inject } from "mobx-react";
 import NavBar from "../../components/NavBar";
 import { SafeAreaView } from "react-navigation";
 import { ui, commonStyle } from "../../style/layout";
 import { SearchBar } from "react-native-elements";
+
+import IconUser from "../../assets/icon/APP_icon-14.png";
 
 @inject("store")
 @observer
@@ -122,6 +125,14 @@ class Home extends React.Component {
     );
   };
 
+  NavBarLeftComponent = () => {
+    return (
+      <TouchableOpacity onPress={() => this.props.navigation.navigate("Login")}>
+        <Image style={styles.NavBarIconUser} source={IconUser} />
+      </TouchableOpacity>
+    );
+  };
+
   render() {
     return (
       <SafeAreaView
@@ -131,7 +142,11 @@ class Home extends React.Component {
           bottom: commonStyle.safeAreaBottomNever
         }}
       >
-        <NavBar centerComponent={this.NavBarCenterComponent()} />
+        <NavBar
+          leftComponent={this.NavBarLeftComponent()}
+          centerComponent={this.NavBarCenterComponent()}
+          innerStyle={styles.NavBarHomeStyle}
+        />
         <ScrollView contentContainerStyle={styles.boxWrapper}>
           <View style={styles.searchWrap}>
             <SearchBar
@@ -209,6 +224,11 @@ const styles = StyleSheet.create({
   },
   NavBarCenter: {
     flexDirection: "row"
+  },
+  NavBarIconUser: {
+    width: ui(56),
+    height: ui(56),
+    marginLeft: 10
   },
   category: {
     alignSelf: "center",

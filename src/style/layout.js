@@ -27,6 +27,9 @@ export const commonStyle = {
   fontBlack: "#333333",
   fontBlack1: "#303030",
   fontGray: "#888888",
+  colorGray: "#E5E5E5",
+  colorBlue: "#098CCE",
+
   // 字体大小
   textFont: 14,
   textFontLarge: 18,
