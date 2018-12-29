@@ -5,13 +5,13 @@ import {
   StyleSheet,
   TouchableOpacity,
   ScrollView,
-  TextInput,
   FlatList
 } from "react-native";
 import { observer, inject } from "mobx-react";
 import NavBar from "../../components/NavBar";
 import { SafeAreaView } from "react-navigation";
 import { ui, commonStyle } from "../../style/layout";
+import { SearchBar } from "react-native-elements";
 
 @inject("store")
 @observer
@@ -39,11 +39,11 @@ class Home extends React.Component {
         },
         {
           anchorAvtar: "",
-          anchorName: "日你锅"
+          anchorName: "对你无语了"
         },
         {
           anchorAvtar: "",
-          anchorName: "草你妹"
+          anchorName: "对你无语了"
         },
         {
           anchorAvtar: "",
@@ -105,6 +105,23 @@ class Home extends React.Component {
       </View>
     );
   };
+
+  NavBarCenterComponent = () => {
+    return (
+      <View style={styles.NavBarCenter}>
+        <TouchableOpacity onPress={() => this.setActiveIndex(0)}>
+          <Text style={this.getStyle(0)}>分类</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => this.setActiveIndex(1)}>
+          <Text style={this.getStyle(1)}>推介</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => this.setActiveIndex(2)}>
+          <Text style={this.getStyle(2)}>关注</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  };
+
   render() {
     return (
       <SafeAreaView
@@ -114,21 +131,15 @@ class Home extends React.Component {
           bottom: commonStyle.safeAreaBottomNever
         }}
       >
-        <NavBar>
-          <TouchableOpacity onPress={() => this.setActiveIndex(0)}>
-            <Text style={this.getStyle(0)}>分类</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => this.setActiveIndex(1)}>
-            <Text style={this.getStyle(1)}>推介</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => this.setActiveIndex(2)}>
-            <Text style={this.getStyle(2)}>关注</Text>
-          </TouchableOpacity>
-        </NavBar>
-
+        <NavBar centerComponent={this.NavBarCenterComponent()} />
         <ScrollView contentContainerStyle={styles.boxWrapper}>
           <View style={styles.searchWrap}>
-            <TextInput style={styles.searchArea} placeholder="主播大奖赛" />
+            <SearchBar
+              inputStyle={styles.searchArea}
+              containerStyle={styles.searchAreaContainer}
+              round
+              placeholder="主播大奖赛"
+            />
           </View>
           <View style={styles.anchorListWrap}>
             <FlatList
@@ -196,16 +207,19 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     height: commonStyle.height - 45
   },
+  NavBarCenter: {
+    flexDirection: "row"
+  },
   category: {
     alignSelf: "center",
     alignItems: "center",
-    paddingHorizontal: 10,
+    paddingHorizontal: 12,
     color: commonStyle.fontColor
   },
   active: {
     alignSelf: "center",
     alignItems: "center",
-    paddingHorizontal: 10,
+    paddingHorizontal: 12,
     color: commonStyle.fontColorBlack,
     fontWeight: "bold"
   },
@@ -214,19 +228,25 @@ const styles = StyleSheet.create({
     height: ui(45)
   },
   searchArea: {
-    height: ui(56),
-    lineHeight: ui(56),
-    borderRadius: ui(15),
     backgroundColor: "#f1f1f1",
-    paddingLeft: ui(40),
-    fontSize: ui(24)
+    fontSize: ui(24),
+    padding: 0
+  },
+  searchAreaContainer: {
+    backgroundColor: "transparent",
+    borderBottomWidth: 0,
+    borderTopWidth: 0,
+    paddingHorizontal: 0,
+    paddingVertical: 0,
+    marginHorizontal: 0,
+    marginVertical: 0
   },
   boxWrapper: {
     // flex: 1
   },
   searchWrap: {
-    marginHorizontal: ui(30),
-    marginVertical: ui(20)
+    marginHorizontal: ui(20),
+    marginVertical: ui(10)
   },
   anchorListWrap: {
     marginTop: ui(10),

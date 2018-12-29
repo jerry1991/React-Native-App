@@ -1,50 +1,49 @@
 import React from "react";
-import { View, StyleSheet, Image } from "react-native";
+import { Header } from "react-native-elements";
+import { StyleSheet } from "react-native";
 import PropTypes from "prop-types";
-import IconLeft from "../assets/icon/APP_icon-14.png";
-import { commonStyle } from "../style/layout";
+import { ui } from "../style/layout";
 
 class NavBar extends React.Component {
-  static propTypes = {};
   render() {
+    const outerStyle = Object.assign(
+      styles.outerContainer,
+      this.props.outerStyle
+    );
+    const innerStyle = Object.assign(
+      styles.innerContainer,
+      this.props.innerStyle
+    );
     return (
-      <View style={styles.navBar}>
-        <View style={styles.left}>
-          <Image source={IconLeft} style={{ width: 25, height: 25 }} />
-        </View>
-        <View style={styles.center}>{this.props.children}</View>
-        <View style={styles.right}>{this.props.right}</View>
-      </View>
+      <Header
+        leftComponent={this.props.leftComponent}
+        centerComponent={this.props.centerComponent}
+        rightComponent={this.props.rightComponent}
+        outerContainerStyles={outerStyle}
+        innerContainerStyles={innerStyle}
+      />
     );
   }
 }
 
+NavBar.propTypes = {
+  leftComponent: PropTypes.element,
+  centerComponent: PropTypes.element,
+  rightComponent: PropTypes.element,
+  outerStyle: PropTypes.object,
+  innerStyle: PropTypes.object
+};
+
 const styles = StyleSheet.create({
-  navBar: {
-    flexDirection: "row",
-    height: 45,
-    borderBottomWidth: 1,
-    lineHeight: 45,
-    alignItems: "center",
+  outerContainer: {
+    padding: 0,
+    height: ui(88),
+    backgroundColor: "transparent",
     justifyContent: "center",
-    borderBottomColor: "#f2f2f2"
+    alignItems: "center"
   },
-  left: {
-    width: 45,
-    height: 45,
-    alignItems: "center",
-    justifyContent: "center"
-  },
-  center: {
-    height: 45,
-    flex: 1,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center"
-  },
-  right: {
-    width: 45,
-    height: 45
+  innerContainer: {
+    alignItems: "center"
   }
 });
 

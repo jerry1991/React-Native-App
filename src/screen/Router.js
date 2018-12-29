@@ -1,12 +1,17 @@
 import React from "react";
 import { Image, StyleSheet } from "react-native";
-import { createBottomTabNavigator, createAppContainer } from "react-navigation";
+import {
+  createBottomTabNavigator,
+  createAppContainer,
+  createStackNavigator
+} from "react-navigation";
 
 import Home from "./Home/Home";
 import Live from "./Live/Live";
 import Bonus from "./Bonus/Bonus";
 import ShotVideo from "./ShotVideo/ShotVideo";
 import FamousHall from "./FamousHall/FamousHall";
+import Login from "./Login/Login";
 
 import HomeIconUnSelected from "../assets/tab/unseleted/home.png";
 import HomeIconSelected from "../assets/tab/seleted/home.png";
@@ -108,6 +113,19 @@ const TabNavigator = createBottomTabNavigator(
   }
 );
 
-const AppContainer = createAppContainer(TabNavigator);
+const AppContainer = createAppContainer(
+  createStackNavigator(
+    {
+      HomeTab: {
+        screen: TabNavigator
+      },
+      Login: Login
+    },
+    {
+      initialRouteName: "HomeTab",
+      headerMode: "none"
+    }
+  )
+);
 
 export default AppContainer;
