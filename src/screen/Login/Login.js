@@ -88,6 +88,7 @@ class Login extends React.Component {
               <View style={styles.inputWrapper}>
                 <TextInput
                   placeholder="请输入手机号码"
+                  style={styles.loginInput}
                   onChangeText={phoneNumber => {
                     this.setState({
                       phoneNumber
@@ -99,6 +100,7 @@ class Login extends React.Component {
                 <TextInput
                   secureTextEntry={this.state.showPassword ? false : true}
                   placeholder="请输入密码"
+                  style={styles.loginInput}
                   onChangeText={password =>
                     this.setState({
                       password
@@ -182,6 +184,9 @@ const styles = StyleSheet.create({
     top: 12,
     width: 40,
     alignItems: "flex-end"
+  },
+  loginInput: {
+    height: ui(88)
   }
 });
 
