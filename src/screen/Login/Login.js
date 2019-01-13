@@ -117,6 +117,7 @@ class Login extends React.Component {
         <NavBar
           showBackBtn={true}
           rightComponent={<Text style={styles.register}>注册</Text>}
+          back={() => this.props.navigation.goBack()}
         />
         <ScrollView>
           <View style={styles.boxWrapper}>
