@@ -1,52 +1,65 @@
-import React from "react";
+import React from "react"
 import {
   Text,
   StyleSheet,
   ScrollView,
   View,
   TextInput,
-  TouchableOpacity
-} from "react-native";
-import { SafeAreaView } from "react-navigation";
-import NavBar from "../../components/NavBar";
-import { commonStyle, ui } from "../../style/layout";
-import Icon from "react-native-vector-icons/dist/FontAwesome";
+  TouchableOpacity,
+  ActivityIndicator
+} from "react-native"
+import { SafeAreaView } from "react-navigation"
+import NavBar from "../../components/NavBar"
+import { commonStyle, ui } from "../../style/layout"
+import Icon from "react-native-vector-icons/dist/FontAwesome"
+import Dialog from "../../components/Dialog"
 
 class Login extends React.Component {
   constructor(prop) {
-    super(prop);
+    super(prop)
     this.state = {
-      showPassword: true,
+      showPassword: false,
       password: "",
       phoneNumber: "",
       isModalVisible: false,
-      errorMessage: ""
-    };
+      errorMessage: "",
+      logining: true,
+      validateErrorMessage: "",
+      showDialog: false
+    }
   }
 
   toggleShowPassword = () => {
-    const currentState = this.state.showPassword === true ? false : true;
+    const currentState = this.state.showPassword === true ? false : true
     this.setState({
       showPassword: currentState
-    });
-  };
+    })
+  }
 
   doValidate = () => {
-    let errorMessage = "";
-    if (!/^1[3|4|5|7|8]\d{9}/.test(testthis.state.phoneNumber)) {
-      errorMessage = "手机号码格式错误";
+    let errorMessage = ""
+    if (!/^1[3|4|5|7|8]\d{9}/.test(this.state.phoneNumber)) {
+      errorMessage = "手机号码格式错误"
     }
 
-    if (this.state.password.length < 6 || this.state.password.length > 18) {
-      errorMessage = "密码长度在6-18个字符之间";
+    if (
+      !errorMessage &&
+      (this.state.password.length < 6 || this.state.password.length > 18)
+    ) {
+      errorMessage = "密码长度在6-18个字符之间"
     }
 
     if (errorMessage) {
-      return false;
+      this.setState({
+        showDialog: true,
+        validateErrorMessage: errorMessage
+      })
+
+      return false
     }
 
-    return true;
-  };
+    return true
+  }
 
   doLogin() {
     return new Promise(resolve => {
@@ -58,24 +71,51 @@ class Login extends React.Component {
             password: this.state.password
           },
           message: "登录成功"
-        });
-      }, 200);
-    });
+        })
+      }, 2000)
+    })
+  }
+
+  closeDialog = () => {
+    this.setState({
+      showDialog: false,
+      validateErrorMessage: ""
+    })
   }
 
   doSubmit = async () => {
-    const { code } = await this.doLogin();
+    if (!this.doValidate()) return
+
+    await this.setState({
+      logining: false
+    })
+
+    const { code } = await this.doLogin()
 
     if (code === 1) {
-      this.props.navigation.navigate("Home");
+      await this.setState({
+        logining: true
+      })
+      this.props.navigation.navigate("Home")
+    } else {
+      // show error massge
     }
-  };
+  }
 
   render() {
     return (
       <SafeAreaView style={{ flex: 1 }}>
+        <Dialog
+          visible={this.state.showDialog}
+          confirmAction={this.closeDialog}
+        >
+          <Text style={styles.dialogText}>
+            {this.state.validateErrorMessage}
+          </Text>
+        </Dialog>
+
         <NavBar
-          showBackBtn="true"
+          showBackBtn={true}
           rightComponent={<Text style={styles.register}>注册</Text>}
         />
         <ScrollView>
@@ -92,7 +132,7 @@ class Login extends React.Component {
                   onChangeText={phoneNumber => {
                     this.setState({
                       phoneNumber
-                    });
+                    })
                   }}
                 />
               </View>
@@ -125,14 +165,18 @@ class Login extends React.Component {
                   style={styles.submitButton}
                   onPress={this.doSubmit}
                 >
-                  <Text style={styles.submitBtnText}>登录</Text>
+                  {this.state.logining ? (
+                    <Text style={styles.submitBtnText}>登录</Text>
+                  ) : (
+                    <ActivityIndicator size="small" color="#fff" />
+                  )}
                 </TouchableOpacity>
               </View>
             </View>
           </View>
         </ScrollView>
       </SafeAreaView>
-    );
+    )
   }
 }
 
@@ -187,7 +231,10 @@ const styles = StyleSheet.create({
   },
   loginInput: {
     height: ui(88)
+  },
+  dialogText: {
+    paddingTop: ui(30)
   }
-});
+})
 
-export default Login;
+export default Login

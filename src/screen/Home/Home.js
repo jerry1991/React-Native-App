@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react"
 import {
   View,
   Text,
@@ -7,20 +7,20 @@ import {
   ScrollView,
   FlatList,
   Image
-} from "react-native";
-import { observer, inject } from "mobx-react";
-import NavBar from "../../components/NavBar";
-import { SafeAreaView } from "react-navigation";
-import { ui, commonStyle } from "../../style/layout";
-import { SearchBar } from "react-native-elements";
+} from "react-native"
+import { observer, inject } from "mobx-react"
+import NavBar from "../../components/NavBar"
+import { SafeAreaView } from "react-navigation"
+import { ui, commonStyle } from "../../style/layout"
+import { SearchBar } from "react-native-elements"
 
-import IconUser from "../../assets/icon/APP_icon-14.png";
+import IconUser from "../../assets/icon/APP_icon-14.png"
 
 @inject("store")
 @observer
 class Home extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       currentActiveIndex: 0,
       anchorList: [
@@ -83,19 +83,19 @@ class Home extends React.Component {
           times: "5:45"
         }
       ]
-    };
+    }
   }
   getStyle = index => {
     return this.state.currentActiveIndex === index
       ? styles.active
-      : styles.category;
-  };
+      : styles.category
+  }
 
   setActiveIndex = index => {
     this.setState({
       currentActiveIndex: index
-    });
-  };
+    })
+  }
   _renderItem = elem => {
     return (
       <View style={styles.anchorList}>
@@ -106,8 +106,8 @@ class Home extends React.Component {
           </Text>
         </View>
       </View>
-    );
-  };
+    )
+  }
 
   NavBarCenterComponent = () => {
     return (
@@ -122,16 +122,16 @@ class Home extends React.Component {
           <Text style={this.getStyle(2)}>关注</Text>
         </TouchableOpacity>
       </View>
-    );
-  };
+    )
+  }
 
   NavBarLeftComponent = () => {
     return (
       <TouchableOpacity onPress={() => this.props.navigation.navigate("Login")}>
         <Image style={styles.NavBarIconUser} source={IconUser} />
       </TouchableOpacity>
-    );
-  };
+    )
+  }
 
   render() {
     return (
@@ -158,7 +158,7 @@ class Home extends React.Component {
           </View>
           <View style={styles.anchorListWrap}>
             <FlatList
-              horizontal="true"
+              horizontal={true}
               data={this.state.anchorList}
               renderItem={({ item }) => this._renderItem(item)}
             />
@@ -193,9 +193,9 @@ class Home extends React.Component {
           <View style={styles.livingNow}>
             <Text style={styles.commonTitle}>短视频</Text>
             <View style={styles.shotVideoList}>
-              {this.state.shotVideoList.map(item => {
+              {this.state.shotVideoList.map((item, index) => {
                 return (
-                  <View style={styles.showVideoItemWrap}>
+                  <View style={styles.showVideoItemWrap} key={index}>
                     <View style={styles.showVideoItem}>
                       <View style={styles.hoverText}>
                         <Text style={styles.hoverTextLeft}>{item.title}</Text>
@@ -206,13 +206,13 @@ class Home extends React.Component {
                     </View>
                     <Text style={styles.showVideoTilte}>百家乐火热开赛</Text>
                   </View>
-                );
+                )
               })}
             </View>
           </View>
         </ScrollView>
       </SafeAreaView>
-    );
+    )
   }
 }
 
@@ -355,6 +355,6 @@ const styles = StyleSheet.create({
     marginTop: 5,
     marginBottom: 12
   }
-});
+})
 
-export default Home;
+export default Home
