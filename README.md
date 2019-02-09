@@ -11,3 +11,5 @@ React Native + MobX 组合APP
 · `cd projectName`  
 · `yarn` or `npm install`   
 · `react-native run-android` or `react-native run-ios`
+
+### 调试项目
